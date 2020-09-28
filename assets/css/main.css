@@ -1,0 +1,955 @@
+@font-face {
+  font-family: "Open Sans";
+  src: local("Open Sans Light"), url("../fonts/OpenSans-Light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: local("Open Sans Regular"), url("../fonts/OpenSans-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: local("Open Sans SemiBold"), url("../fonts/OpenSans-SemiBold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: "Open Sans";
+  src: local("Open Sans Bold"), url("../fonts/OpenSans-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: bold;
+}
+@font-face {
+  font-family: "Nothing";
+  src: local("Nothing You Could Do"), url("../fonts/NothingYouCouldDo-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Teko";
+  src: local("Teko"), url("../fonts/Teko-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+:root {
+  --white: #FFF;
+  --black: #000;
+  --black-hover: #111;
+  --black-active: #222;
+  --black-10: #0000001a;
+  --black-50: rgba(0, 0, 0, .5);
+  --black-75: #000000bf;
+  --dark-0: #333;
+  --dark-1: #000000BF;
+  --gray: #79756C;
+  --gray-0: #707070;
+  --gray-1: #7E7E7E;
+  --gray-2: #9A9A99;
+  --gray-3: #CCC;
+  --gray-4: #00000029;
+  --gray-5: #E5E3DFBF;
+  --gray-6: #F8F8F8;
+  --gray-7: #E5E3DF;
+  --gray-8: #DDD;
+  --gray-9: #999;
+  --gray-10: #EEE;
+  --gray-11: #444;
+  --gray-12: #E8E8E8;
+  --red: #E32119;
+  --red-hover: #E4423B;
+  --red-active: #C91D16;
+  --green: #00994D;
+  --green-hover: #00BE60;
+  --green-active: #00773C;
+  --blue: #00A0E6;
+  --blue-hover: #1CABE9;
+  --blue-active: #199BD4;
+  --success: #D4EDDA;
+  --success-border: #C3E6CB;
+  --success-color: #155724;
+  --danger: #F8D7DA;
+  --danger-border: #F5C6CB;
+  --danger-color: #721C24;
+  --space: 20px;
+  --border-radius: 5px;
+}
+
+* {
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+}
+
+body, div, article, aside, footer, header, main, nav, section, ul, ol, li, button, figure, picture, hr {
+  display: flex;
+}
+
+body {
+  margin: 0;
+  flex-direction: column;
+  background-color: var(--bg-color);
+}
+body > main {
+  min-height: calc(100vh - 400px);
+}
+
+hr.divider {
+  background-color: var(--gray-3);
+  height: 1px;
+  width: calc(100% - 2em);
+  margin: 3em 0;
+  border: none;
+  align-self: center;
+}
+
+@media (min-width: 1200px) {
+  body > main {
+    min-height: calc(100vh - 341px);
+  }
+}
+.toast {
+  position: relative;
+  height: 80px;
+  width: 100%;
+  align-items: center;
+  padding: var(--space);
+  border: 1px solid transparent;
+  transition: 1s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.toast .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 16px;
+  background: none;
+  border: none;
+  font-size: 32px;
+  transition: 0.3s;
+  color: var(--black-50);
+  min-width: 50px;
+  margin: 15px;
+}
+.toast .close:hover {
+  color: var(--black-75);
+}
+.toast.success {
+  color: var(--success-color);
+  border-color: var(--success-border);
+  background-color: var(--success);
+}
+.toast.danger {
+  color: var(--danger-color);
+  border-color: var(--danger-border);
+  background-color: var(--danger);
+}
+
+form {
+  flex-direction: column;
+  width: 100%;
+  padding: 0 var(--space);
+}
+form .fields {
+  flex-direction: column;
+}
+form .field {
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: var(--space);
+}
+form .field label {
+  color: var(--gray-3);
+  font-size: 14px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  transition: color 0.3s ease-in-out;
+  z-index: 2;
+}
+form .field input, form .field textarea, form .field select {
+  border: var(--gray-3) 1px solid;
+  line-height: 1.5em;
+  padding: 10px;
+  padding-top: 33px;
+  font-size: 16px;
+  color: var(--dark-0);
+  outline: none;
+  border-radius: var(--border-radius);
+  position: relative;
+  z-index: 1;
+  top: 0;
+  transition: border-color 0.3s ease-in-out;
+  width: 100%;
+  background-color: transparent;
+}
+form .field input:focus, form .field textarea:focus, form .field select:focus {
+  border-color: var(--green);
+}
+form .field input:focus + label, form .field textarea:focus + label, form .field select:focus + label {
+  color: var(--green);
+}
+form .field input[readonly], form .field textarea[readonly], form .field select[readonly] {
+  border: none;
+  color: var(--black);
+  font-weight: bold;
+  font-size: 22px;
+  text-transform: uppercase;
+  padding-bottom: 0;
+}
+form .field input[readonly] + label, form .field textarea[readonly] + label, form .field select[readonly] + label {
+  color: var(--gray-0);
+  text-transform: uppercase;
+}
+form button {
+  min-width: 130px;
+  border: none;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--black);
+  background-color: var(--green);
+  color: var(--white);
+}
+form button:hover {
+  background-color: var(--black-10);
+}
+form button:active {
+  background-color: var(--black-75);
+}
+form button:hover {
+  background-color: var(--green-hover);
+}
+form button:active {
+  background-color: var(--green-active);
+}
+
+@media (min-width: 1200px) {
+  form {
+    max-width: 400px;
+  }
+  form .fields {
+    flex-direction: row;
+  }
+  form .fields .field {
+    margin-right: var(--space);
+  }
+  form .fields .field:last-child {
+    margin-right: 0;
+  }
+  form .fields .field textarea {
+    min-height: 250px;
+  }
+  form button {
+    max-width: 340px;
+  }
+}
+header.page-title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+header.page-title h1, header.page-title h2, header.page-title h3, header.page-title h4, header.page-title h5, header.page-title h6 {
+  color: var(--green);
+  margin: 0;
+  font-size: 32px;
+  font-weight: 600;
+}
+header.page-title hr {
+  width: 68px;
+  border: none;
+  border-top: 4px solid var(--red);
+  margin: 10px 0;
+}
+
+.page {
+  flex-direction: column;
+  height: calc(100vh - 140px);
+  overflow: auto;
+}
+.page .page-title {
+  margin: var(--space);
+  width: calc(100% - calc(var(--space) * 2));
+}
+.page > header {
+  width: 100%;
+  min-height: 130px;
+  background-color: var(--black);
+  color: var(--white);
+  justify-content: center;
+  align-items: center;
+  margin-top: 18px;
+}
+.page > header h1 {
+  font-size: 23px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.page > main {
+  margin-bottom: 80px;
+  flex-direction: column;
+}
+.page > main .toast {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 3;
+}
+.page > main .toast.open {
+  transform: translateY(-80px);
+}
+.page footer.fixed {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: var(--gray-12);
+  height: 80px;
+  left: 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space);
+  z-index: 4;
+}
+.page footer.fixed button, .page footer.fixed a {
+  min-width: 130px;
+  border: none;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--black);
+  background-color: var(--gray-3);
+  color: var(--gray-0);
+}
+.page footer.fixed button:hover, .page footer.fixed a:hover {
+  background-color: var(--black-10);
+}
+.page footer.fixed button:active, .page footer.fixed a:active {
+  background-color: var(--black-75);
+}
+.page footer.fixed button:hover, .page footer.fixed a:hover {
+  background-color: var(--gray-hover);
+}
+.page footer.fixed button:active, .page footer.fixed a:active {
+  background-color: var(--gray-active);
+}
+.page footer.fixed button[type=submit], .page footer.fixed a.black {
+  min-width: 130px;
+  border: none;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--black);
+  background-color: var(--black);
+  color: var(--white);
+}
+.page footer.fixed button[type=submit]:hover, .page footer.fixed a.black:hover {
+  background-color: var(--black-10);
+}
+.page footer.fixed button[type=submit]:active, .page footer.fixed a.black:active {
+  background-color: var(--black-75);
+}
+.page footer.fixed button[type=submit]:hover, .page footer.fixed a.black:hover {
+  background-color: var(--black-hover);
+}
+.page footer.fixed button[type=submit]:active, .page footer.fixed a.black:active {
+  background-color: var(--black-active);
+}
+.page.blue > header {
+  background-color: var(--blue);
+}
+.page.blue footer.fixed button[type=submit], .page.blue footer.fixed a.black {
+  min-width: 130px;
+  border: none;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--black);
+  background-color: var(--blue);
+  color: var(--white);
+}
+.page.blue footer.fixed button[type=submit]:hover, .page.blue footer.fixed a.black:hover {
+  background-color: var(--black-10);
+}
+.page.blue footer.fixed button[type=submit]:active, .page.blue footer.fixed a.black:active {
+  background-color: var(--black-75);
+}
+.page.blue footer.fixed button[type=submit]:hover, .page.blue footer.fixed a.black:hover {
+  background-color: var(--blue-hover);
+}
+.page.blue footer.fixed button[type=submit]:active, .page.blue footer.fixed a.black:active {
+  background-color: var(--blue-active);
+}
+.page.green > header {
+  background-color: var(--green);
+}
+.page.green footer.fixed button[type=submit], .page.green footer.fixed a.black {
+  min-width: 130px;
+  border: none;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--black);
+  background-color: var(--green);
+  color: var(--white);
+}
+.page.green footer.fixed button[type=submit]:hover, .page.green footer.fixed a.black:hover {
+  background-color: var(--black-10);
+}
+.page.green footer.fixed button[type=submit]:active, .page.green footer.fixed a.black:active {
+  background-color: var(--black-75);
+}
+.page.green footer.fixed button[type=submit]:hover, .page.green footer.fixed a.black:hover {
+  background-color: var(--green-hover);
+}
+.page.green footer.fixed button[type=submit]:active, .page.green footer.fixed a.black:active {
+  background-color: var(--green-active);
+}
+
+@media (min-width: 1200px) {
+  .page > header {
+    justify-content: flex-start;
+    padding-left: 185px;
+    min-height: 160px;
+  }
+  .page > header h1 {
+    font-size: 32px;
+  }
+  .page footer.fixed {
+    justify-content: flex-start;
+  }
+  .page footer.fixed button + button, .page footer.fixed a + a, .page footer.fixed button + a, .page footer.fixed a + button {
+    margin-right: var(--space);
+  }
+  .page footer.fixed button, .page footer.fixed a {
+    order: 1;
+  }
+  .page footer.fixed button:first-child, .page footer.fixed a:first-child {
+    order: 2;
+  }
+}
+.calendar {
+  flex-direction: column;
+  padding: 0 var(--space);
+  margin-bottom: var(--space);
+}
+.calendar .month {
+  justify-content: space-between;
+  align-items: center;
+  color: var(--gray-2);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+.calendar .month h2 {
+  font-size: 22px;
+  font-weight: 400;
+}
+.calendar .month button {
+  min-width: 130px;
+  border: none;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--black);
+  border: var(--gray-2) 2px solid;
+  border-radius: var(--border-radius);
+  color: var(--gray-2);
+}
+.calendar .month button:hover {
+  background-color: var(--black-10);
+}
+.calendar .month button:active {
+  background-color: var(--black-75);
+}
+.calendar .month nav button {
+  min-width: 50px;
+}
+.calendar .month nav button + button {
+  margin-left: 10px;
+}
+.calendar .month .btn-today {
+  display: none;
+}
+.calendar ul {
+  margin: 0;
+  padding: 0;
+}
+.calendar .weekdays {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--gray-0);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+.calendar .weekdays li {
+  justify-content: center;
+  padding: 8px 0;
+  font-size: 12px;
+  font-weight: bold;
+}
+.calendar .days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 12vw);
+  grid-gap: 10px;
+  color: var(--dark-0);
+}
+.calendar .days li {
+  font-size: 16px;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+}
+.calendar .days li:hover {
+  background-color: var(--gray-7);
+}
+.calendar .days li.active {
+  background-color: var(--blue);
+  color: var(--white);
+}
+.calendar .days li.active:hover {
+  background-color: var(--blue-hover);
+}
+.calendar .days li.active:active {
+  background-color: var(--blue-active);
+}
+.calendar .days li.selected {
+  background-color: var(--green);
+  color: var(--white);
+}
+.calendar .days li.selected:hover {
+  background-color: var(--green-hover);
+}
+.calendar .days li.selected:active {
+  background-color: var(--green-active);
+}
+
+@media (min-width: 992px) {
+  .calendar {
+    max-width: 992px;
+  }
+  .calendar .month {
+    margin: var(--space) 0;
+  }
+  .calendar .month h2 {
+    font-size: 44px;
+  }
+  .calendar .month .btn-today {
+    display: flex;
+  }
+  .calendar .weedays li {
+    font-size: 21px;
+    font-weight: bold;
+  }
+  .calendar .days {
+    grid-template-rows: repeat(5, calc(992px / 7));
+  }
+  .calendar .days li {
+    font-size: 38px;
+  }
+}
+#header {
+  min-width: 320px;
+  width: 100%;
+  height: 60px;
+  background-color: var(--gray-5);
+  position: relative;
+  z-index: 3;
+}
+#header .italy {
+  width: 100%;
+  position: absolute;
+  top: 60px;
+  background-color: var(--white);
+  border: none;
+  border-top: var(--green) 6px solid;
+  border-bottom: var(--red) 6px solid;
+  height: 18px;
+  margin: 0;
+}
+#header .logo {
+  position: absolute;
+  transition: all 1s ease-in-out;
+  top: 15px;
+  width: 72px;
+  right: calc(50vw - 36px);
+  z-index: 5;
+}
+#header .menu {
+  transition: right 0.5s ease-in-out;
+  width: 300px;
+  height: 100vh;
+  padding-bottom: 50px;
+  background-color: var(--gray-7);
+  position: fixed;
+  right: -300px;
+  top: 0;
+  z-index: 4;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#header .menu hr {
+  width: 100%;
+  border-bottom: none;
+  border-color: var(--black-10);
+  margin: 0;
+}
+#header .menu.logged nav ul li.divider {
+  display: flex;
+}
+#header .menu.logged nav ul li.hide-guest {
+  display: flex;
+}
+#header .menu.logged .footer > div {
+  display: flex;
+}
+#header .menu.logged .footer > a.btn-register {
+  display: none;
+}
+#header .menu nav {
+  flex-direction: column;
+}
+#header .menu nav ul {
+  margin: 0;
+  padding: 0;
+  margin-top: 249px;
+  width: 100%;
+  flex-direction: column;
+}
+#header .menu nav ul li {
+  padding: 14px 0;
+  list-style: none;
+  justify-content: center;
+}
+#header .menu nav ul li a {
+  text-decoration: none;
+  color: var(--gray-0);
+}
+#header .menu nav ul li.hide-guest, #header .menu nav ul li.divider {
+  display: none;
+}
+#header .menu nav ul li hr {
+  margin: 15px 0;
+}
+#header .menu .footer {
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+#header .menu .footer > div {
+  display: none;
+  padding: 15px;
+  width: 100%;
+  align-items: center;
+}
+#header .menu .footer > div picture {
+  margin-right: 10px;
+}
+#header .menu .footer > div picture img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+#header .menu .footer > div > div {
+  flex-direction: column;
+  flex: 1;
+}
+#header .menu .footer > div a {
+  color: var(--dark-0);
+  text-decoration: none;
+  font-size: 16px;
+}
+#header .menu .footer > div a small {
+  color: var(--gray-2);
+  font-size: 12px;
+}
+#header .menu .btn-register {
+  margin: 20px;
+  width: calc(300px - 40px);
+  min-width: 130px;
+  border: none;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  background: transparent;
+  color: var(--black);
+  background-color: var(--green);
+  color: var(--white);
+}
+#header .menu .btn-register:hover {
+  background-color: var(--black-10);
+}
+#header .menu .btn-register:active {
+  background-color: var(--black-75);
+}
+#header .menu .btn-register:hover {
+  background-color: var(--green-hover);
+}
+#header .menu .btn-register:active {
+  background-color: var(--green-active);
+}
+#header button {
+  background: none;
+  border: none;
+  outline: none;
+  padding: 13px;
+}
+#header #btn-open, #header #btn-close {
+  position: absolute;
+  right: 0;
+}
+
+.open-menu {
+  overflow: hidden;
+}
+.open-menu #header .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--dark-1);
+  z-index: 4;
+}
+.open-menu #header .menu {
+  right: 0;
+}
+.open-menu #header .logo {
+  right: 87px;
+  width: 120px;
+}
+
+@media (min-width: 1200px) {
+  .open-menu {
+    overflow: initial;
+  }
+  .open-menu #header .overlay {
+    display: none;
+  }
+  .open-menu #header .logo {
+    width: 100px;
+    top: 17px;
+    right: calc(100vw - 150px);
+  }
+
+  #header {
+    height: 100px;
+  }
+  #header .italy {
+    top: 100px;
+  }
+  #header .logo {
+    width: 100px;
+    top: 17px;
+    right: calc(100vw - 150px);
+  }
+  #header #btn-open, #header #btn-close {
+    display: none;
+  }
+  #header .menu {
+    right: initial;
+    position: static;
+    background-color: initial;
+    width: 100%;
+    height: 100px;
+    flex-direction: row;
+    margin-left: 150px;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0;
+  }
+  #header .menu .btn-register {
+    margin: 0;
+    margin-right: 30px;
+    width: 200px;
+  }
+  #header .menu nav {
+    width: 100%;
+  }
+  #header .menu nav ul {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 0;
+  }
+  #header .menu nav ul li a {
+    font-size: 18px;
+    min-width: 120px;
+    padding: 10px 0;
+    text-align: center;
+  }
+  #header .menu nav ul li a:hover {
+    color: var(--black);
+  }
+  #header .menu .footer {
+    width: initial;
+    justify-content: center;
+  }
+  #header .menu .footer hr {
+    display: none;
+  }
+  #header .menu .footer > div {
+    height: 100px;
+  }
+}
+#footer {
+  width: 100%;
+  min-width: 320px;
+  background-color: var(--dark-0);
+  position: relative;
+  flex-direction: column;
+  padding: var(--space);
+  align-items: center;
+  color: var(--gray-0);
+}
+#footer button {
+  position: absolute;
+  right: var(--space);
+  background-color: var(--gray-6);
+  box-shadow: var(--black) 0 3px 6px;
+  border: none;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  outline: none;
+  justify-content: center;
+  align-items: center;
+  top: -35px;
+  z-index: 1;
+  cursor: pointer;
+}
+#footer button:hover {
+  background-color: var(--white);
+}
+#footer .columns {
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+#footer .columns .links {
+  display: none;
+}
+#footer .columns ul {
+  margin: 0;
+  padding: 0;
+  width: 300px;
+  flex-direction: column;
+}
+#footer .columns ul li {
+  list-style: none;
+  font-size: 16px;
+  padding: 0.5em 0;
+}
+#footer .columns ul li a {
+  color: var(--gray-0);
+  text-decoration: none;
+}
+#footer .columns ul li.title {
+  font-weight: bold;
+  font-size: 20px;
+}
+#footer .columns ul li.social {
+  align-items: center;
+}
+#footer .columns ul li.social a {
+  margin-right: 1em;
+}
+#footer .columns ul li.social img {
+  height: 24px;
+}
+#footer .columns .logo {
+  margin: var(--space) 0;
+}
+#footer p {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+@media (min-width: 1200px) {
+  #footer {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-bottom: 0;
+  }
+  #footer .columns {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  #footer .columns .links {
+    display: flex;
+  }
+  #footer .columns ul li a:hover {
+    color: var(--white);
+  }
+}
+
+/*# sourceMappingURL=main.css.map */
